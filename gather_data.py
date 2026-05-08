@@ -50,12 +50,11 @@ class GatherData():
         csv_header = "id,timestamp,acc_x,acc_y,acc_z,gyro_x,gyro_y,gyro_z\n"
 
         while self.isGathering:
-            if timestamp >= 1:
+            if timestamp >= 10:
                 self.isGathering = False
                 print(f"Trail {self.trialCount} Finished!")
                 break
-            
-        
+              
             accelerator_data = sensor.get_value("accelerometer")
             gyro_data = sensor.get_value("gyroscope")
 
