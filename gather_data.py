@@ -6,14 +6,14 @@ import threading
 import os
 
 #Notes:
-# - Each TrialOptions for themselfes to better allow errors
+# - we decided to have each activity and device placement be one run, to prevent great data loss if an error occurs
 # - would rather use ";" for csv but assignment says ","
 # - could use pythons import csv
 
 PORT = 5700
 sensor = SensorUDP(PORT)
 RATE = 20
-actvities = ["Rowing", "Jumping Jacks", "Running","Lifting"]
+activities = ["Rowing", "Jumping Jacks", "Running","Lifting"]
 placements = ["Pocket", "Hand"]
 
 class GatherData():
@@ -21,15 +21,15 @@ class GatherData():
         self.isGathering = False
         self.timeTracker = 0
         self.trialCount = 0 #Switch when trialCount > 4
-        self.inputFinisehd = False
-        self.trailRunning = False
+        self.inputFinished = False
+        self.trialRunning = False
 
         self.name = input("Type your Name: ")
 
         print("Select the Activity")
-        for i, act in enumerate(actvities):
+        for i, act in enumerate(activities):
             print(f"{i}: {act}")
-        self.activity = actvities[int(input("Select the Activity: "))]
+        self.activity = activities[int(input("Select the Activity: "))]
 
         print("Select the Placement")
         for i, act in enumerate(placements):
@@ -37,11 +37,11 @@ class GatherData():
         self.placement = placements[int(input("Select the placement: "))]
         print(f"{self.name}-{self.activity}-{self.placement}")
 
-        self.inputFinisehd = True
+        self.inputFinished = True
 
     
     def loop(self):
-        self.trailRunning = True
+        self.trialRunning = True
         timestamp = 0
         id = 0
         rate = 20 if self.trialCount < 5 else 100
@@ -52,7 +52,7 @@ class GatherData():
         while self.isGathering:
             if timestamp >= 1:
                 self.isGathering = False
-                print(f"Trail {self.trialCount} Finished!")
+                print(f"Trial {self.trialCount} Finished!")
                 break
             
         
@@ -83,7 +83,7 @@ class GatherData():
             os._exit(0)
 
         print(f"Press Button_1 to start the next trial of {self.activity} in {self.placement} with {20 if self.trialCount < 5 else 100}Hz")
-        self.trailRunning = False
+        self.trialRunning = False
 
     def gather(self):
         self.isGathering = True
@@ -92,7 +92,7 @@ class GatherData():
 gatherClass = GatherData()
 
 def startGathering(data):
-    if(data == 1 and gatherClass.inputFinisehd and not gatherClass.trailRunning):
+    if(data == 1 and gatherClass.inputFinished and not gatherClass.trialRunning):
         gatherClass.gather()
 
 def printData(data):
