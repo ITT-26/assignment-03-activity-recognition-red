@@ -13,32 +13,45 @@ import os
 PORT = 5700
 sensor = SensorUDP(PORT)
 RATE = 20
-activities = ["Rowing", "Jumping Jacks", "Running","Lifting"]
-placements = ["Pocket", "Hand"]
+activities = ["rowing", "jumping_jacks", "running","lifting"]
+placements = ["pocket", "hand"]
+done_trials = []
 
 class GatherData():
     def __init__(self):  
+        self.name = input("Type your Name: ")
+        self.setInfo()
+        
+    def setInfo(self):
         self.isGathering = False
-        self.timeTracker = 0
         self.trialCount = 0 #Switch when trialCount > 4
         self.inputFinished = False
         self.trialRunning = False
 
-        self.name = input("Type your Name: ")
-
+        #Set Activity
         print("Select the Activity")
         for i, act in enumerate(activities):
             print(f"{i}: {act}")
         self.activity = activities[int(input("Select the Activity: "))]
 
+        #Set Placement
         print("Select the Placement")
         for i, act in enumerate(placements):
             print(f"{i}: {act}")
         self.placement = placements[int(input("Select the placement: "))]
         print(f"{self.name}-{self.activity}-{self.placement}")
 
-        self.inputFinished = True
-
+        #Check if already done in this "run"
+        if f"{self.activity}-{self.placement}" in done_trials:
+            print("You already did this trial, you want to do it again?")
+            confirmation = input("Type 'y' for yes and 'n' for no: ")
+            if(confirmation == "n"):
+                print("") #For spacing in Terminal
+                self.setInfo()
+            elif(confirmation == "y"):
+                self.inputFinished = True
+        else:
+            self.inputFinished = True        
     
     def loop(self):
         self.trialRunning = True
@@ -52,7 +65,7 @@ class GatherData():
         while self.isGathering:
             if timestamp >= 10:
                 self.isGathering = False
-                print(f"Trial {self.trialCount} Finished!")
+                print(f"Trial {self.trialCount+1} Finished! {9-self.trialCount} left")
                 break
               
             accelerator_data = sensor.get_value("accelerometer")
@@ -71,15 +84,19 @@ class GatherData():
             time.sleep(1/rate)
 
         #your_name-activity-sample_rate-placement_number.csv
-        csvName = f"data\{self.name}-{self.activity}-{rate}Hz-{self.placement}-{self.trialCount%5}.csv"
+        csvName = f"data/{self.name}-{self.activity}-{rate}Hz-{self.placement}-{self.trialCount%5}.csv"
         with open(csvName, "w") as file:
             file.write(csv_header + "".join(csv_Rows))
-        print(csvName)
+        print("Wrote: ",csvName)
 
         self.trialCount += 1
         if self.trialCount >= 10:
-            print("\n--------------------------\nFinished all trials!\n--------------------------")
-            os._exit(0)
+            done_trials.append(f"{self.activity}-{self.placement}")
+            print("\n--------------------------\nFinished all trials!\n--------------------------\nYou already did in this run:")
+            for trial in done_trials:
+                print(trial)
+            print("\n")
+            self.setInfo() #set info for new run
 
         print(f"Press Button_1 to start the next trial of {self.activity} in {self.placement} with {20 if self.trialCount < 5 else 100}Hz")
         self.trialRunning = False
