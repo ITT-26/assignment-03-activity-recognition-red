@@ -127,6 +127,7 @@ class GatherData():
                 print(trial)
             print("\n")
             self.setInfo() #set info for new run
+            return
 
         print(f"    Press Button_1 to start the next trial of {self.activity} in {self.placement} with {20 if self.trialCount < 5 else 100}Hz")
         print(f"    Press Button_2 to redo the current trial of {self.activity} in {self.placement} with {20 if self.trialCount-1 < 5 else 100}Hz")
