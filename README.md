@@ -4,21 +4,21 @@
 
 ### Installation (For Windows)
 Open The Root-Directory (Assignment-03-...) in a Terminal and create + activate the virtual enviroment with:
-'''
+````
 py -m venv venv
 venv\Scripts\activate
-'''
+````
 (venv) should now be displayed before your new CommandLine in the Terminal
 
 Next install the requirements:
-'''
+````
 pip install -r requirements.txt
-'''
+````
 
 Then open the file
-'''
+````
 py gather_data.py
-'''
+````
 
 ### Workflow
 1. Type in your name
