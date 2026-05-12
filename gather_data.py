@@ -75,7 +75,7 @@ class GatherData():
 
     def loop(self):  
         self.trialRunning = True
-        timestamp = 0
+        currentRunTime = 0
         id = 0
         rate = 20 if self.trialCount < 5 else 100
 
@@ -88,30 +88,28 @@ class GatherData():
         csv_header = "id,timestamp,acc_x,acc_y,acc_z,gyro_x,gyro_y,gyro_z\n"
 
         while self.isGathering:
-            if timestamp > TIME_FRAME:
+            if currentRunTime > TIME_FRAME:
                 self.isGathering = False
                 print(f"Trial {self.trialCount+1} Finished! {9-self.trialCount} left")
                 break
               
+            millisecondsSinceEpoch = int(time.time() * 1000)  
             accelerator_data = sensor.get_value("accelerometer")
             gyro_data = sensor.get_value("gyroscope")
 
             acc_x, acc_y, acc_z = accelerator_data["x"], accelerator_data["y"], accelerator_data["z"]
             gyro_x, gyro_y, gyro_z = gyro_data["x"], gyro_data["y"], gyro_data["z"]
 
-            csv_Row = f"{id},{timestamp},{acc_x},{acc_y},{acc_z},{gyro_x},{gyro_y},{gyro_z}\n"
+            csv_Row = f"{id},{millisecondsSinceEpoch},{acc_x},{acc_y},{acc_z},{gyro_x},{gyro_y},{gyro_z}\n"
 
             print(csv_Row)
 
             csv_Rows.append(csv_Row)
-            timestamp += 1/rate
+            currentRunTime += 1/rate
             id += 1
             time.sleep(1/rate)
 
         #your_name-activity-sample_rate-placement_number.csv
-        #What is meant by "structured correctly"? 
-        #it wouldn't be a problem to put in folders according to hz/activity/placement
-        # just add to csvName e.g. f"data/{self.name}/{self.activity/self.placement/rate}/..."
         csvName = f"data/{self.name}/{self.name}-{self.activity}-{rate}Hz-{self.placement}-{self.trialCount%5}.csv"
         
         with open(csvName, "w") as file: #overwrite if name exists to allow for redos
