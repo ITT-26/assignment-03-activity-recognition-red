@@ -1,8 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/QwFWBwI4)
 
-# Gather Data
 
-### Installation (For Windows)
+## Start Virtual Enviroment (For Windows)
 Open The Root-Directory (Assignment-03-...) in a Terminal and create + activate the virtual enviroment with:
 '''
 py -m venv venv
@@ -15,7 +14,11 @@ Next install the requirements:
 pip install -r requirements.txt
 '''
 
-Then open the file
+# Gather Data
+
+### Start
+
+Start VENV, then type
 '''
 py gather_data.py
 '''
@@ -30,4 +33,23 @@ py gather_data.py
     - If something goes wrong during a trial you can press "Button_2" when its done to redo the current trial
     - You can quit the programm at any time and continue later, it is only important that you do the run of activity and placement in order (e.g. **don't just delete a trial in the middle**, you can however delete the last one)
     - You can also redo a run completly if desired or start at a trial-Number of your choosing
+
+
+# Fitness Trainer
+
+### Start
+
+Start VENV, then type
+'''
+py fitness_trainer.py
+'''
     
+### How to
+1. Select your settings:
+    - Press 2-6 to adjust the workout time per Activity
+    - Press "F" for Fixed Time (Timer counts down continously and you earn points when doing the right)\
+      Press "G" for "While doing it" Time (Timer only counts down while doing the right activity) **RECOMMENDED**
+    - Press "H" if you want to hold the sensor in your hand\
+      Press "P" if you want to keep the sensor in your pocket
+2. Press "S" to start
+3. After each Activity you can change the settings if you want
