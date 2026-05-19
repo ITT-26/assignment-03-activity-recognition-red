@@ -3,25 +3,25 @@
 
 ## Start Virtual Enviroment (For Windows)
 Open The Root-Directory (Assignment-03-...) in a Terminal and create + activate the virtual enviroment with:
-'''
+````
 py -m venv venv
 venv\Scripts\activate
-'''
+````
 (venv) should now be displayed before your new CommandLine in the Terminal
 
 Next install the requirements:
-'''
+````
 pip install -r requirements.txt
-'''
+````
 
 # Gather Data
 
 ### Start
 
 Start VENV, then type
-'''
+````
 py gather_data.py
-'''
+````
 
 ### Workflow
 1. Type in your name
@@ -40,9 +40,9 @@ py gather_data.py
 ### Start
 
 Start VENV, then type
-'''
+````
 py fitness_trainer.py
-'''
+````
     
 ### How to
 1. Select your settings:
